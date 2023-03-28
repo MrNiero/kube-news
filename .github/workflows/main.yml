@@ -22,9 +22,15 @@ jobs:
       with:
         context: ./src/
         file: ./src/Dockerfile
-        push: true
-        tags: |
-          mrniero/kube-news-${{github.run_number}}
-          mrniero/kube-news-latest
+        push: false
         
+    - name: "Docker build image with version tag"
+      run: |
+        make image IMAGE_TAG=${{ github.event.release.tag_name }}
+        make image IMAGE_TAG=latest
+     - name: "Push to container registry"
+      run: |
+        echo ${{ secrets.GITHUB_TOKEN }} | docker login $IMAGE_REG -u $GITHUB_ACTOR --password-stdin
+        make push IMAGE_TAG=${{ github.event.release.tag_name }}
+        make push IMAGE_TAG=latest
 
