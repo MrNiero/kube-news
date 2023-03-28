@@ -17,6 +17,11 @@ jobs:
         username: ${{secrets.DOCKERHUB_USER}}
         password: ${{secrets.DOCKERHUB_PWD}}
     
+    - name: "Docker build image with version tag"
+      run: |
+        make image IMAGE_TAG=${{ github.event.release.tag_name }}
+        make image IMAGE_TAG=latest
+    
     - name: Build and push Docker images
       uses: docker/build-push-action@v3.2.0
       with:
@@ -24,13 +29,3 @@ jobs:
         file: ./src/Dockerfile
         push: false
         
-    - name: "Docker build image with version tag"
-      run: |
-        make image IMAGE_TAG=${{ github.event.release.tag_name }}
-        make image IMAGE_TAG=latest
-     - name: "Push to container registry"
-      run: |
-        echo ${{ secrets.GITHUB_TOKEN }} | docker login $IMAGE_REG -u $GITHUB_ACTOR --password-stdin
-        make push IMAGE_TAG=${{ github.event.release.tag_name }}
-        make push IMAGE_TAG=latest
-
