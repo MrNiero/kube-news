@@ -18,7 +18,7 @@ jobs:
         file: ./src/Dockerfile
         push: true
         tags: |
-          MrNiero/kube-news-v1
-          MrNiero/kube-news-latest
+          mrniero/kube-news-v1
+          mrniero/kube-news-latest
         
-        
+
