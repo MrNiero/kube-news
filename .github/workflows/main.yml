@@ -24,7 +24,7 @@ jobs:
         file: ./src/Dockerfile
         push: true
         tags: |
-          mrniero/kube-news-{{github.run_number}}
+          mrniero/kube-news-${{github.run_number}}
           mrniero/kube-news-latest
         
 
